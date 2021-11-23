@@ -67,6 +67,7 @@ api["API Application<br/>[Container: Node.js]<br/>provides functionality via JSO
 ## API Application
 ```mermaid
 flowchart TB
+reset["Web Reset<br/>[Container: Node.js]<br/>handles password reset links"]
 Email(["Email<br/>[System: TBD]<br/>Sends users email for account verification and password resets"])
 Twilio(["Twilio<br/>[System]<br/>SMS management system"])
 single["Single Page Application<br/>[Container: javascript]<br/>Provides functionality via web browser"]
@@ -82,12 +83,12 @@ db[("Database<br/>[Container: TBD]<br/>Stores accounts,<br/>medicines, perscript
 		Signup["Register<br/>[Component: Node.js]<br/>Allows users to create account for MEDMINDER"]
 		Reset["Reset<br/>[Component: Node.js]<br/>Allows user to reset password"]
 		Security["Security Component<br/>[Component: Node.js]<br/>Manages account changes in DB"]
+		Reset --> Security
 		Signin --> Security
 		Signup --> Security
-		Reset --> Security
 	end
 	mail["Email<br/>[Component: Node.js]<br/>Sends emails"]
-	Reset --> mail
+	Reset ---> mail
 	Account --> Dbfacade
   end
 mail --> Email
@@ -96,7 +97,7 @@ Time --> Dbfacade
 Security --> db
 Dbfacade --> db
 single --> Signin
-single --> Reset
+reset --> Reset
 single --> Signup
 single --> Account
 ```
