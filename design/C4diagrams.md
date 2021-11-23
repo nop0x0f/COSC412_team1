@@ -5,9 +5,11 @@ Patient("Patient<br/>[Person]<br/>A Person who takes medication")
 Provider("Provider<br/>[Person]<br/>A Person who perscribes medication")
 Medminder(["Medminder<br/>[System]<br/>An system to remind and track medication taking"])
 Twilio(["Twilio<br/>[System]<br/>SMS management system"])
+Email(["Email<br/>[System: TBD]<br/>Sends users email for account verification and password resets"])
 Patient --> Medminder
 Provider --> Medminder
 Medminder --> Twilio
+Medminder --> Email
 ```
 
 # Container Diagram
@@ -90,12 +92,12 @@ db[("Database<br/>[Container: TBD]<br/>Stores accounts,<br/>medicines, perscript
 	mail["Email<br/>[Component: Node.js]<br/>Sends emails"]
 	Reset ---> mail
 	Account --> Dbfacade
+	Security --> db
+	Dbfacade --> db
   end
 mail --> Email
 Time --> Twilio
 Time --> Dbfacade
-Security --> db
-Dbfacade --> db
 single --> Signin
 reset --> Reset
 single --> Signup
