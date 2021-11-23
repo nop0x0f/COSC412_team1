@@ -42,6 +42,7 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v2
         with:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Add compiled mermaid
           title: '[MMDC] New mermaid files compiled'
