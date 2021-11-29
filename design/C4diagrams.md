@@ -32,18 +32,17 @@ Patient("Patient<br/>[Person]<br/>A Person who takes medication")
 Provider("Provider<br/>[Person]<br/>A Person who perscribes medication")
 Twilio(["Twilio<br/>[System]<br/>SMS management system"])
 Email(["Email<br/>[System: TBD]<br/>Sends users email for account verification and password resets"])
- subgraph MEDMINDER
- 	direction TB
-	reset["Web Reset<br/>[Container: Node.js]<br/>handles password reset links"]
- 	web["Web Application<br/>[Container: Node.js]<br/>Delivers static content and single page app"]
- 	single["Single Page Application<br/>[Container: javascript]<br/>Provides functionality via web browser"]
-	api["API Application<br/>[Container: Node.js]<br/>provides functionality via JSON/HTTPS API"]
-	db[("Database<br/>[Container: TBD]<br/>Stores accounts,<br/>medicines, perscriptions")]
-	web --> |"delivers"| single
-	single --> |"makes api calls to"| api
-	reset --> |"makes api calls to"| api
-	api --> |"gets data from"| db
- end
+  subgraph MEDMINDER
+    reset["Web Reset<br/>[Container: Node.js]<br/>handles password reset links"]
+    web["Web Application<br/>[Container: Node.js]<br/>Delivers static content and single page app"]
+    single["Single Page Application<br/>[Container: javascript]<br/>Provides functionality via web browser"]
+    api["API Application<br/>[Container: Node.js]<br/>provides functionality via JSON/HTTPS API"]
+    db[("Database<br/>[Container: TBD]<br/>Stores accounts,<br/>medicines, perscriptions")]
+    web --> |"delivers"| single
+    single --> |"makes api calls to"| api
+    reset --> |"makes api calls to"| api
+    api --> |"gets data from"| db
+  end
 Email --> |"Sends reset links"| reset
 api --> |"Email interaction via"| Email
 api --> |"SMS interaction via"| Twilio
@@ -69,7 +68,6 @@ Patient("Patient<br/>[Person]<br/>A Person who takes medication")
 Provider("Provider<br/>[Person]<br/>A Person who perscribes medication")
 single["Single Page Application<br/>[Container: javascript]<br/>Provides functionality via web browser"]
   subgraph WebApplication
-	direction TB
 	test
   end
 ```
@@ -90,7 +88,6 @@ Provider("Provider<br/>[Person]<br/>A Person who perscribes medication")
 web["Web Application<br/>[Container: Node.js]<br/>Delivers static content and single page app"]
 api["API Application<br/>[Container: Node.js]<br/>provides functionality via JSON/HTTPS API"]
   subgraph SinglePageApplication
-	direction TB
 	test
   end
 ```
@@ -112,12 +109,10 @@ Twilio(["Twilio<br/>[System]<br/>SMS management system"])
 single["Single Page Application<br/>[Container: javascript]<br/>Provides functionality via web browser"]
 db[("Database<br/>[Container: TBD]<br/>Stores accounts,<br/>medicines, perscriptions")]
   subgraph APIApplication
-	direction TB
 	Time["Timer<br/>[Component: Node.js]<br/>Manages notification timing for all users"]
 	Account["Account manager<br/>[Component: Node.js]<br/>packages user data for Single page app"]
 	Dbfacade["Database facade<br/>[Component: Node.js]<br/>Manages data queries and updates"]
 	subgraph Access
-		direction TB
 		Signin["Sign-In<br/>[Component: Node.js]<br/>Allows user to sign in to MEDMINDER"]
 		Signup["Register<br/>[Component: Node.js]<br/>Allows users to create account for MEDMINDER"]
 		Reset["Reset<br/>[Component: Node.js]<br/>Allows user to reset password"]
@@ -129,9 +124,9 @@ db[("Database<br/>[Container: TBD]<br/>Stores accounts,<br/>medicines, perscript
 	mail["Email<br/>[Component: Node.js]<br/>Sends emails"]
 	Reset ---> mail
 	Account --> Dbfacade
-	Security --> db
-	Dbfacade --> db
   end
+Security --> db
+Dbfacade --> db
 mail --> Email
 Time --> Twilio
 Time --> Dbfacade
@@ -154,7 +149,6 @@ single --> Account
 flowchart TB
 api["API Application<br/>[Container: Node.js]<br/>provides functionality via JSON/HTTPS API"]
   subgraph Database
-	direction TB
 	test
   end
 ```
