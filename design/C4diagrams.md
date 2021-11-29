@@ -124,9 +124,9 @@ db[("Database<br/>[Container: TBD]<br/>Stores accounts,<br/>medicines, perscript
     mail["Email<br/>[Component: Node.js]<br/>Sends emails"]
     Reset ---> mail
     Account --> Dbfacade
+  end
     Security --> db
     Dbfacade --> db
-  end
 mail --> Email
 Time --> Twilio
 Time --> Dbfacade
