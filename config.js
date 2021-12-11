@@ -26,15 +26,32 @@ cfg.twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
 // MongoDB connection string - MONGO_URL is for local dev,
 // MONGOLAB_URI is for the MongoLab add-on for Heroku deployment
-cfg.mongoUrl = process.env.MONGOLAB_URI || process.env.MONGO_URL;
-cfg.mongoUrlTest = process.env.MONGO_URL_TEST;
+// cfg.mongoUrl = process.env.MONGOLAB_URI || process.env.MONGO_URL;
+// cfg.mongoUrlTest = process.env.MONGO_URL_TEST;
 
-// cfg.FirebaseApiKey = process.env.FIREBASE_API_KEY;
-// cfg.FirebaseAuthDomain = process.env.FIREBASE_AUTHDOMAIN;
-// cfg.FirebaseProjectID = process.env.FIREBASE_PROJECTID;
-// cfg.FirebaseStorageBucket = process.env.FIREBASE_STORAGEBUCKET;
-// cfg.FirebaseMessagingSenderID = process.env.FIREBASE_MESSAGING_SENDER_ID;
-// cfg.FirebaseAppID = process.env.FIREBASE_APPID;
+cfg.FirebaseApiKey = process.env.FIREBASE_API_KEY;
+cfg.FirebaseAuthDomain = process.env.FIREBASE_AUTHDOMAIN;
+cfg.FirebaseProjectID = process.env.FIREBASE_PROJECTID;
+cfg.FirebaseStorageBucket = process.env.FIREBASE_STORAGEBUCKET;
+cfg.FirebaseMessagingSenderID = process.env.FIREBASE_MESSAGING_SENDER_ID;
+cfg.FirebaseAppID = process.env.FIREBASE_APPID;
+
+cfg.GoogleApplicationType = process.env.GOOGLE_APPLICATION_TYPE;
+cfg.GoogleApplicationProjectID = process.env.GOOGLE_APPLICATION_PROJECT_ID;
+cfg.GoogleApplicationKeyID = process.env.GOOGLE_APPLICATION_PRIVATE_KEY_ID;
+cfg.GoogleApplicationPrivateKey = process.env.GOOGLE_APPLICATION_PRIVATE_KEY;
+cfg.GoogleApplicationClientEmail = process.env.GOOGLE_APPLICATION_CLIENT_EMAIL;
+cfg.GoogleApplicationClientID = process.env.GOOGLE_APPLICATION_CLIENT_ID;
+cfg.GoogleApplicationAuthURI = process.env.GOOGLE_APPLICATION_AUTH_URI;
+cfg.GoogleApplicationTokenURI = process.env.GOOGLE_APPLICATION_TOKEN_URI;
+// eslint-disable-next-line max-len
+cfg.GoogleApplicationAuthProviderX509CertUrl = process.env.GOOGLE_APPLICATION_AUTH_PROVIDER_X509_CERT_URL;
+// eslint-disable-next-line max-len
+cfg.GoogleApplicationClientX509CertUrl = process.env.GOOGLE_APPLICATION_CLIENT_X509_CERT_URL;
+
+cfg.GoogleApplicationJSON = process.env.GOOGLE_APPLICATION_JSON;
+
+cfg.FirebaseDBUrl = process.env.FIREBASE_DB_URL;
 
 // Export configuration object
 module.exports = cfg;

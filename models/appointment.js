@@ -1,31 +1,76 @@
 'use strict';
 
-const mongoose = require('mongoose');
-const moment = require('moment');
 const cfg = require('../config');
 const Twilio = require('twilio');
+const debug = require('debug')('appointment-reminders-node:models:appointment');
+const firebase = require('firebase-admin/app');
+const {credential} = require('firebase-admin');
+const firestore = require('firebase-admin/firestore');
 
-const AppointmentSchema = new mongoose.Schema({
-  name: String,
-  medication: String,
-  phoneNumber: String,
-  notification: Number,
-  timeZone: String,
-  time: {type: Date, index: true},
+// eslint-disable-next-line no-unused-vars
+firebase.initializeApp({
+    credential: credential.cert(
+        JSON.parse(
+            Buffer.from(
+                cfg.GoogleApplicationJSON, 'base64'
+            ).toString('ascii'))),
+    databaseURL: cfg.FirebaseDBUrl,
 });
 
-AppointmentSchema.methods.requiresNotification = function(date) {
-  return Math.round(moment.duration(moment(this.time).tz(this.timeZone).utc()
-                          .diff(moment(date).utc())
-                        ).asMinutes()) === this.notification;
+const FireDB = firestore.getFirestore();
+
+const Appointment = FireDB.collection('PatientCollection');
+
+Appointment.find = function() {
+    let out = [];
+    Appointment.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            // Get the prescription array
+            let drugList = doc.data().Prescriptions;
+            if (Array.isArray(drugList)) {
+                // Patient info
+                const patient = {};
+                patient['name'] = doc.data().name;
+                patient['phoneNumber'] = doc.data().phoneNumber;
+
+                patient['notification'] = 5;
+                patient['timeZone'] = 'America/New_York';
+
+                // Loop through all prescription to get the dosageTime
+                drugList.forEach(function(med) {
+                    // med.dosageTimes is an array holding HH:MM formatted times
+                    for (let i = 0; i < med.dosageTimes.length; i++) {
+                        let myTime = med.dosageTimes[i].split(':');
+                        patient['daytime'] = {
+                            'hour': myTime[0],
+                            'minute': myTime[1],
+                        };
+                        out.push(patient);
+                    }
+                });
+            }
+            debug(`doc ${JSON.stringify(doc.data())}`);
+        });
+    });
+    debug(`appointments ${out}`);
+    return out;
 };
 
-AppointmentSchema.statics.sendNotifications = function(callback) {
+Appointment.requiresNotification = function(date) {
+  return Math.round(moment.duration(moment(moment()
+            .startOf('day')
+            .add(this.daytime.hour, 'hours')
+            .add(this.daytime.minute, 'minutes'))
+          .tz(this.timeZone)
+          .utc()
+          .diff(moment(date).utc())
+  ).asMinutes()) === this.notification;
+};
+
+Appointment.sendNotifications = function(callback) {
   // now
   const searchDate = new Date();
-  Appointment
-    .find()
-    .then(function(appointments) {
+  this.find().forEach(function(appointments) {
       appointments = appointments.filter(function(appointment) {
               return appointment.requiresNotification(searchDate);
       });
@@ -35,7 +80,7 @@ AppointmentSchema.statics.sendNotifications = function(callback) {
     });
 
     /**
-    * Send messages to all appoinment owners via Twilio
+    * Send messages to all appointment owners via Twilio
     * @param {array} appointments List of appointments.
     */
     function sendNotifications(appointments) {
@@ -73,6 +118,4 @@ AppointmentSchema.statics.sendNotifications = function(callback) {
     }
 };
 
-
-const Appointment = mongoose.model('appointment', AppointmentSchema);
 module.exports = Appointment;

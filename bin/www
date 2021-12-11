@@ -5,11 +5,8 @@
  */
 
 const app = require('../app');
-const debug = require('debug')('appointment-reminders-node:server');
+const debug = require('debug')('appointment-reminders-node:www');
 const http = require('http');
-//const firebase = require('firebase');
-//require("firebase/firestore");
-const mongoose = require('mongoose');
 const cfg = require('../config');
 
 /**
@@ -92,31 +89,3 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
-
-if(!cfg.mongoUrl) {
-  throw new Error("MONGO_URL env variable not set")
-}
-
-mongoose.connect(cfg.mongoUrl, {
-  useMongoClient: true,
-});
-
-mongoose.Promise = Promise;
-
-// if (!cfg.FirebaseAuthDomain) {
-//   throw new Error("FIREBASE_AUTHDOMAIN env variable not set");
-// }
-//
-// const firebaseConfig = {
-//   apiKey: cfg.FirebaseApiKey,
-//   authDomain: cfg.FirebaseAuthDomain,
-//   projectID: cfg.FirebaseProjectID,
-//   storageBucket: cfg.FirebaseStorageBucket,
-//   messagingSenderId: cfg.FirebaseMessagingSenderID,
-//   appID: cfg.FirebaseAppID
-// }
-//
-// const FireApp = firebase.initializeApp(firebaseConfig);
-// const FireDB = firebase.getFirestore();
-//
-// FireDB.Promise = Promise;

@@ -14,7 +14,7 @@ const getTimeZones = function() {
 // GET: /appointments
 router.get('/', function(req, res, next) {
   Appointment.find()
-    .then(function(appointments) {
+    .forEach(function(appointments) {
       res.render('appointments/index', {appointments: appointments});
     });
 });
@@ -36,18 +36,19 @@ router.post('/', function(req, res, next) {
   const name = req.body.name;
   const medication = req.body.medication;
   const phoneNumber = req.body.phoneNumber;
-  const notification = req.body.notification;
-  const timeZone = req.body.timeZone;
-  const time = moment(req.body.time, 'MM-DD-YYYY hh:mma');
+//  const notification = req.body.notification;
+//  const timeZone = req.body.timeZone;
+  const time = moment(req.body.time, 'HH:MM');
 
-  const appointment = new Appointment({name: name,
-                                       medication: medication,
-                                       phoneNumber: phoneNumber,
-                                       notification: notification,
-                                       timeZone: timeZone,
-                                       time: time});
-  appointment.save()
-    .then(function() {
+  Appointment.add({
+      'name': name,
+      'phoneNumber': phoneNumber,
+      'Prescriptions': {
+          'dosageTimes': [time],
+          'drugName': medication,
+      },
+  })
+  .then(function() {
       res.redirect('/');
     });
 });
