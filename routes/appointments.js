@@ -36,16 +36,14 @@ router.get('/create', function(req, res, next) {
 
 // POST: /appointments
 router.post('/', function(req, res, next) {
-  const notificationTime = moment(
-      req.body.time, 'MM-DD-YYYY hh:mma').format('HH:mm');
+  const notificationTime = moment(req.body.time, 'MM-DD-YYYY hh:mma');
   console.log(`notification time received ${notificationTime}`);
   const patient = Appointment.patientData({
       name: req.body.name,
       email: req.body.email,
       medication: req.body.medication,
       phoneNumber: req.body.phoneNumber,
-      time: moment(
-          req.body.time, 'MM-DD-YYYY hh:mma').format('HH:mm'),
+      time: notificationTime,
       timeZone: req.body.timeZone,
       notification: req.body.notification,
   });
