@@ -77,7 +77,8 @@ Appointment.parse = function(document) {
         drugList.forEach(function(med) {
             patient['medication'] = med.drugName;
             // med.dosageTimes is an array holding HH:MM formatted times
-            for (let i = 0; i < med.dosageTimes.length; i++) {
+            for (let i = 0; Array.isArray(med.dosageTimes) &&
+                 i < med.dosageTimes.length; i++) {
                 let myTime = med.dosageTimes[i].split(':');
                 const output = {};
                 const h = parseInt(myTime[0], 10);
