@@ -125,13 +125,14 @@ Appointment.find = function() {
 };
 
 Appointment.requiresNotification = function(appointment, targetDate) {
-  return Math.round(
-      moment.duration(
-          appointment.time.diff(
-              moment(targetDate).utc()
-          )
-      ).asMinutes()
-  ) === appointment.notification;
+    const diffminutes =moment.duration(
+        appointment.time.diff(
+            moment(targetDate).utc()
+        )).asMinutes();
+    const flag = Math.round(diffminutes) === appointment.notification;
+    console.out(`appointment ${appointment.name} in ${diffminutes}`);
+    console.out(`    requiresNotification now? ${flag.toString()}`);
+    return flag;
 };
 
 Appointment.sendNotifications = function(callback) {
