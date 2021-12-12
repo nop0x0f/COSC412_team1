@@ -3,9 +3,13 @@
   .col-sm-8
     input#inputName.form-control(type='text', name='name', placeholder='Name', required='', data-parsley-maxlength='20', data-parsley-maxlength-message="This field can't have more than 20 characters", value=appointment.name)
 .form-group
-  label.col-sm-4.control-label(for='medicationName') Name *
+  label.col-sm-4.control-label(for='medicationName') Medication Name *
   .col-sm-8
     input#medicationName.form-control(type='text', name='medication', placeholder='Medication Name', required='', data-parsley-maxlength='40', data-parsley-maxlength-message="This field can't have more than 40 characters", value=appointment.medication)
+.form-group
+  label.col-sm-4.control-label(for='emailAddress') Email Address *
+  .col-sm-8
+    input#emailAddress.form-control(type='text', name='email', placeholder='Email Address', required='', data-parsley-maxlength='60', data-parsley-maxlength-message="This field can't have more than 60 characters", value=appointment.email)
 .form-group
   label.col-sm-4.control-label(for='inputPhoneNumber') Phone Number
   .col-sm-8
@@ -13,7 +17,7 @@
 .form-group
   label.col-sm-4.control-label(for='time') Appointment Date
   .col-sm-8
-    input#inputDate.form-control(type='text', name='time', placeholder='Pick a Date', required='', value=moment(appointment.time).format('MM-DD-YYYY hh:mma'))
+    input#inputDate.form-control(type='text', name='time', placeholder='Pick a Date', required='', value=moment(appointment.time).format('HH:mm'))
 .form-group
   label.col-sm-4.control-label(for='selectNotification') Notification Time
   .col-sm-8

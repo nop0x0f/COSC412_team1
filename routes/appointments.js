@@ -1,8 +1,8 @@
 'use strict';
 
 const express = require('express');
-const momentTimeZone = require('moment-timezone');
 const moment = require('moment');
+const momentTimeZone = require('moment-timezone');
 const Appointment = require('../models/appointment');
 const router = new express.Router();
 
@@ -13,41 +13,39 @@ const getTimeZones = function() {
 
 // GET: /appointments
 router.get('/', function(req, res, next) {
-  Appointment.find()
-    .forEach(function(appointments) {
-      res.render('appointments/index', {appointments: appointments});
+    Appointment.find().then((appointments) => {
+        res.render('appointments/index', {appointments: appointments});
     });
 });
 
 // GET: /appointments/create
 router.get('/create', function(req, res, next) {
-  res.render('appointments/create', {
-    timeZones: getTimeZones(),
-    appointment: new Appointment({name: '',
-                                  medication: '',
-                                  phoneNumber: '',
-                                  notification: '',
-                                  timeZone: '',
-                                  time: ''})});
+    res.render('appointments/create', {
+        timeZones: getTimeZones(),
+        appointment: Appointment.patientData({
+            name: '',
+            email: '',
+            medication: '',
+            phoneNumber: '',
+            notification: '',
+            timeZone: '',
+            time: '',
+        }),
+    });
 });
 
 // POST: /appointments
 router.post('/', function(req, res, next) {
-  const name = req.body.name;
-  const medication = req.body.medication;
-  const phoneNumber = req.body.phoneNumber;
-//  const notification = req.body.notification;
-//  const timeZone = req.body.timeZone;
-  const time = moment(req.body.time, 'HH:MM');
-
-  Appointment.add({
-      'name': name,
-      'phoneNumber': phoneNumber,
-      'Prescriptions': {
-          'dosageTimes': [time],
-          'drugName': medication,
-      },
-  })
+  const patient = Appointment.patientData({
+      name: req.body.name,
+      email: req.body.email,
+      medication: req.body.medication,
+      phoneNumber: req.body.phoneNumber,
+      time: [moment(req.body.time, 'MM-DD-YYYY hh:mma').format('HH:mm')],
+      timeZone: req.body.timeZone,
+      notification: req.body.notification,
+  });
+  Appointment.doc(patient.email).set(patient)
   .then(function() {
       res.redirect('/');
     });
@@ -56,47 +54,12 @@ router.post('/', function(req, res, next) {
 // GET: /appointments/:id/edit
 router.get('/:id/edit', function(req, res, next) {
   const id = req.params.id;
-  Appointment.findOne({_id: id})
-    .then(function(appointment) {
-      res.render('appointments/edit', {timeZones: getTimeZones(),
-                                       appointment: appointment});
-    });
-});
-
-// POST: /appointments/:id/edit
-router.post('/:id/edit', function(req, res, next) {
-  const id = req.params.id;
-  const name = req.body.name;
-  const medication = req.body.medication;
-  const phoneNumber = req.body.phoneNumber;
-  const notification = req.body.notification;
-  const timeZone = req.body.timeZone;
-  const time = moment(req.body.time, 'MM-DD-YYYY hh:mma');
-
-  Appointment.findOne({_id: id})
-    .then(function(appointment) {
-      appointment.name = name;
-      appointment.medication = medication;
-      appointment.phoneNumber = phoneNumber;
-      appointment.notification = notification;
-      appointment.timeZone = timeZone;
-      appointment.time = time;
-
-      appointment.save()
-        .then(function() {
-          res.redirect('/');
-        });
-    });
-});
-
-// POST: /appointments/:id/delete
-router.post('/:id/delete', function(req, res, next) {
-  const id = req.params.id;
-
-  Appointment.remove({_id: id})
-    .then(function() {
-      res.redirect('/');
-    });
+  Appointment.doc(id)
+      .get()
+      .then(function(appointment) {
+          res.render('appointments/edit', {timeZones: getTimeZones(),
+              appointment: Appointment.parse(appointment)});
+      });
 });
 
 module.exports = router;

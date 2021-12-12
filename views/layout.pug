@@ -10,13 +10,13 @@ html
     link(rel='stylesheet', type='text/css', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css')
     block styles
     link(rel='stylesheet', href='/css/style.css')
-    
-    title Appointments
+
+    title Reminders
   body
     nav.navbar.navbar-default
       .container
         .navbar-header
-          a.navbar-brand(href='/') Appointment Reminders
+          a.navbar-brand(href='/') Medication Reminders
         div
           ul.nav.navbar-nav
             li
@@ -24,8 +24,8 @@ html
                 | Index
             li
               a(href='/appointments/create')
-                | New appointment
-    
+                | New reminder
+
     .container
       .row
         .col-lg-9
@@ -33,14 +33,9 @@ html
         .col-lg-3
       // /row
       hr
-      footer
-        | Made with 
-        i.fa.fa-heart
-        |  by your pals
-        |    
-        a(href='http://www.twilio.com') @twilio
+
       // /container
-      
+
       script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
       script(src='https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.1.2/parsley.min.js')
       block scripts
