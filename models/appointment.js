@@ -31,6 +31,8 @@ Appointment.patientData = function(data) {
         ('notification' in data) &&
         ('timeZone' in data) &&
         ('time' in data)) {
+        const submitTime = moment(data.time).format('HH:mm');
+        console.log(`submitting time ${submitTime}`);
         document.DocList = ['not_implemented_in_backend'];
         document.Notifications = [{
             fromEmail: 'not_implemented_in_backend',
@@ -44,7 +46,7 @@ Appointment.patientData = function(data) {
             complianceChart: 'not_implemented_in_backend',
             docName: 'not_implemented_in_backend',
             doctorId: 'not_implemented_in_backend',
-            dosageTimes: [moment(data.time).format('HH:mm')],
+            dosageTimes: [submitTime],
             drugDosage: 'not_implemented_in_backend',
             drugFreq: 0,
             drugId: 'not_implemented_in_backend',
