@@ -1,34 +1,59 @@
 {
-  "name": "medminder-backend",
-  "version": "0.0.1",
-  "description": "backend for a pill miner app",
-  "engines": {
-    "node": "14.x"
-  },
-  "main": "index.js",
+  "name": "appointment-reminders-node",
+  "version": "1.0.0",
+  "private": true,
   "scripts": {
-    "start": "node index.js",
-    "test": "node test.js"
+    "start": "node ./bin/www",
+    "test": "NODE_ENV=test && ./node_modules/.bin/eslint . && node_modules/mocha/bin/mocha test"
   },
-  "dependencies": {
-    "ejs": "^3.1.5",
-    "express": "^4.15.2",
-    "node-schedule": "^2.1.0",
-    "twilio": "^3.71.2",
-    "body-parser": "^1.19.0"
+  "description": "Node implementation of Appointment Reminders",
+  "author": {
+    "name": "Omar Ahmed",
+    "email": "neb.trx@gmail.com"
   },
-  "devDependencies": {
-    "got": "^11.3.0",
-    "tape": "^4.7.0"
-  },
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://github.com/TwilioDevEd/appointment-reminders-node"
   },
   "keywords": [
     "node",
-    "heroku",
-    "express"
+    "appointment reminders",
+    "twilio",
+    "express",
+    "sms",
+    "notification"
   ],
-  "license": "MIT"
+  "engines": {
+    "node": ">=6.x"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.2",
+    "cookie-parser": "~1.4.3",
+    "cron": "^1.1.0",
+    "debug": ">=2.6.9",
+    "dotenv-safe": "^4.0.4",
+    "dotenv-webpack": "^7.0.3",
+    "eslint": "^3.19.0",
+    "express": "~4.14.0",
+    "firebase-admin": "^10.0.0",
+    "moment": "^2.11.2",
+    "moment-timezone": "^0.5.0",
+    "morgan": "~1.7.0",
+    "npm": "^6.4.1",
+    "pug": "^2.0.0-beta.12",
+    "serve-favicon": "~2.3.0",
+    "twilio": "~3.0.0-rc.13"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "cheerio": "^0.22.0",
+    "eslint-config-google": "^0.7.1",
+    "mocha": "^3.1.2",
+    "mongo-in-memory": "0.0.5",
+    "proxyquire": "^1.7.10",
+    "supertest": "^2.0.1",
+    "firebase": "^9.6.1",
+    "uuid": "^8.3.2"
+  }
 }

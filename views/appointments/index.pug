@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+  table.table
+      thead
+        tr
+          th Name
+          th Medication
+          th Phone number
+          th Email Address
+          th Reminder time
+      tbody
+        each appointment in appointments
+          tr
+            td  !{appointment.name}
+            td  !{appointment.medication}
+            td  !{appointment.phoneNumber}
+            td  !{appointment.email}
+            td  !{appointment.time.format('HH:mm')}
