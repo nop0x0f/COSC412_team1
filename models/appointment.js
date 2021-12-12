@@ -32,7 +32,6 @@ Appointment.patientData = function(data) {
         ('timeZone' in data) &&
         ('time' in data)) {
         const submitTime = moment(data.time).format('HH:mm');
-        console.log(`submitting time ${submitTime}`);
         document.DocList = ['not_implemented_in_backend'];
         document.Notifications = [{
             fromEmail: 'not_implemented_in_backend',
