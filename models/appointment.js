@@ -130,8 +130,8 @@ Appointment.requiresNotification = function(appointment, targetDate) {
             moment(targetDate).utc()
         )).asMinutes();
     const flag = Math.round(diffminutes) === appointment.notification;
-    console.out(`appointment ${appointment.name} in ${diffminutes}`);
-    console.out(`    requiresNotification now? ${flag.toString()}`);
+    console.log(`appointment ${appointment.name} in ${diffminutes}`);
+    console.log(`    requiresNotification now? ${flag.toString()}`);
     return flag;
 };
 
